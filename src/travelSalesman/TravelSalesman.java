@@ -4,14 +4,22 @@ import java.sql.Time;
 import java.util.ArrayList;
 
 public class TravelSalesman {
-	static int NUMBER_OF_CITIES = 11;
+	static int NUMBER_OF_CITIES = 16;
+	static boolean IS_RANDOM = false;
+
+	static String XML_NAME = "ulysses16";
 
 	public static void main(String[] args) {
 		GenerateProblem problemGenerator = new GenerateProblem();
-		ArrayList<City> listOfCities = problemGenerator
-				.randomProblemGenerator(NUMBER_OF_CITIES);
 		BruteForce brutForce = new BruteForce();
-
+		ArrayList<City> listOfCities;
+		if (IS_RANDOM) {
+			listOfCities = problemGenerator
+					.randomProblemGenerator(NUMBER_OF_CITIES);
+		} else {
+			listOfCities = problemGenerator.generateFromXML(XML_NAME);
+			NUMBER_OF_CITIES = problemGenerator.getNumberOfCities(XML_NAME);
+		}
 		Cost cost = new Cost(NUMBER_OF_CITIES, NUMBER_OF_CITIES);
 		for (int i = 0; i < listOfCities.size(); ++i) {
 			for (int j = 0; j < listOfCities.size(); ++j) {
@@ -33,33 +41,40 @@ public class TravelSalesman {
 			}
 			System.out.println();
 		}
-		System.out.println("------------------------------------Metoda podzzia³u i ograniczeñ--------------------------------------------------------");
+		System.out
+				.println("------------------------------------Metoda podzzia³u i ograniczeñ--------------------------------------------------------");
 		BranchAndBound bab = new BranchAndBound(cost, listOfCities.size());
 		bab.generateSolution();
-		System.out
-				.println("------------------------------------Brute Force--------------------------------------------------------------------------");
-		long timeStart = System.currentTimeMillis();
-		System.out.println("Postêp:\n__________________________________________________");
-		timeStart = System.currentTimeMillis();
-		Route route = brutForce.calculateBruteForce(listOfCities);
-		long timeEnd = System.currentTimeMillis();
-		long wholeTime = (timeEnd - timeStart);
-		System.out.print("\n\n czas : " + wholeTime
-				+ "\n koszt drogi :" + route.lenght + "\n Droga : ");
-		for (int j = 0; j < route.listOfCity.size(); j++) {
-			if (j != 0)
-				System.out.print("->");
-			System.out.print(route.listOfCity.get(j));
-		}
 
-		System.out.println("\n------------------------------------Porównanie--------------------------------------------------------");
-		System.out.println(
-				"_______________________________"+
-				"\n|Czas |"+wholeTime+"         | "+ bab.getWholeTime()+
-				"\n|Droga|"+route.lenght+"        | "+bab.getBestTour());
-		
-		if(route.lenght!=bab.getBestTour()){
-			System.err.println("B³¹d coœ nie dzia³a w algorytmach wynik nie jest równy ");
+		if (NUMBER_OF_CITIES < 20) {
+			System.out
+					.println("------------------------------------Brute Force--------------------------------------------------------------------------");
+			long timeStart = System.currentTimeMillis();
+			System.out
+					.println("Postêp:\n__________________________________________________");
+			timeStart = System.currentTimeMillis();
+			Route route = brutForce.calculateBruteForce(listOfCities);
+			long timeEnd = System.currentTimeMillis();
+			long wholeTime = (timeEnd - timeStart);
+			System.out.print("\n\n czas : " + wholeTime + "\n koszt drogi :"
+					+ route.lenght + "\n Droga : ");
+			for (int j = 0; j < route.listOfCity.size(); j++) {
+				if (j != 0)
+					System.out.print("->");
+				System.out.print(route.listOfCity.get(j));
+			}
+
+			System.out
+					.println("\n------------------------------------Porównanie--------------------------------------------------------");
+			System.out.println("_______________________________" + "\n|Czas |"
+					+ wholeTime + "         | " + bab.getWholeTime()
+					+ "\n|Droga|" + route.lenght + "        | "
+					+ bab.getBestTour());
+
+			if (route.lenght != bab.getBestTour()) {
+				System.err
+						.println("B³¹d coœ nie dzia³a w algorytmach wynik nie jest równy ");
+			}
 		}
 	}
 
