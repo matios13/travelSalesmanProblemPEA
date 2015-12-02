@@ -8,7 +8,7 @@ import BranchAndBound.Cost;
 import MyBranchAndBound.MyBranchAndBound;
 
 public class TravelSalesman {
-	static int NUMBER_OF_CITIES = 30;
+	static int NUMBER_OF_CITIES = 20;
 	static boolean IS_RANDOM = true;
 
 	static String XML_NAME = "ulysses16";
