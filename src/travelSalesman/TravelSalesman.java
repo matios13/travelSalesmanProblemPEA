@@ -3,9 +3,13 @@ package travelSalesman;
 import java.sql.Time;
 import java.util.ArrayList;
 
+import BranchAndBound.BranchAndBound;
+import BranchAndBound.Cost;
+import MyBranchAndBound.MyBranchAndBound;
+
 public class TravelSalesman {
-	static int NUMBER_OF_CITIES = 16;
-	static boolean IS_RANDOM = false;
+	static int NUMBER_OF_CITIES = 5;
+	static boolean IS_RANDOM = true;
 
 	static String XML_NAME = "ulysses16";
 
@@ -44,8 +48,9 @@ public class TravelSalesman {
 		System.out
 				.println("------------------------------------Metoda podzzia³u i ograniczeñ--------------------------------------------------------");
 		BranchAndBound bab = new BranchAndBound(cost, listOfCities.size());
+		MyBranchAndBound bab2 = new MyBranchAndBound(cost, listOfCities.size());
 		bab.generateSolution();
-
+		bab2.generateSolution();
 		if (NUMBER_OF_CITIES < 20) {
 			System.out
 					.println("------------------------------------Brute Force--------------------------------------------------------------------------");
@@ -68,8 +73,9 @@ public class TravelSalesman {
 					.println("\n------------------------------------Porównanie--------------------------------------------------------");
 			System.out.println("_______________________________" + "\n|Czas |"
 					+ wholeTime + "         | " + bab.getWholeTime()
-					+ "\n|Droga|" + route.lenght + "        | "
-					+ bab.getBestTour());
+					+ "         | " + bab2.getWholeTime() + "\n|Droga|"
+					+ route.lenght + "        | " + bab.getBestTour()
+					+ "        | " + bab2.getBestTour());
 
 			if (route.lenght != bab.getBestTour()) {
 				System.err
@@ -77,5 +83,4 @@ public class TravelSalesman {
 			}
 		}
 	}
-
 }

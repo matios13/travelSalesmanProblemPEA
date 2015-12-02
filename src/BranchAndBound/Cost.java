@@ -1,4 +1,4 @@
-package travelSalesman;
+package BranchAndBound;
 
 public class Cost {
 short[][] costs;

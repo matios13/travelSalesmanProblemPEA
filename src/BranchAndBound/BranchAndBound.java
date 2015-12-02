@@ -1,6 +1,8 @@
-package travelSalesman;
+package BranchAndBound;
 import java.awt.*;
 import java.util.*;
+
+import travelSalesman.TimeInterval;
 
 public class BranchAndBound {
 
