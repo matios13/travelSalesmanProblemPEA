@@ -8,7 +8,7 @@ import BranchAndBound.Cost;
 import MyBranchAndBound.MyBranchAndBound;
 
 public class TravelSalesman {
-	static int NUMBER_OF_CITIES = 5;
+	static int NUMBER_OF_CITIES = 15;
 	static boolean IS_RANDOM = true;
 
 	static String XML_NAME = "ulysses16";
@@ -50,8 +50,11 @@ public class TravelSalesman {
 		BranchAndBound bab = new BranchAndBound(cost, listOfCities.size());
 		MyBranchAndBound bab2 = new MyBranchAndBound(cost, listOfCities.size());
 		bab.generateSolution();
+		System.out.println("--------------------------------2    Metoda podzzia³u i ograniczeñ     2-------------------------------------------------------");
 		bab2.generateSolution();
-		if (NUMBER_OF_CITIES < 20) {
+		if(bab.getWholeTime()>bab2.getWholeTime())
+			System.err.println("szybciej");
+		if (NUMBER_OF_CITIES < 5) {
 			System.out
 					.println("------------------------------------Brute Force--------------------------------------------------------------------------");
 			long timeStart = System.currentTimeMillis();

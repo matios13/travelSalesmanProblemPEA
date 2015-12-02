@@ -38,10 +38,8 @@ public class Node {
 			if (edgeIndex < BranchAndBound.newEdge.size()) {
 				pt = (Point) BranchAndBound.newEdge.get(edgeIndex);
 			}
-			System.out.println("ei "+edgeIndex+" size " + BranchAndBound.newEdge.size());
 		}
 		if (edgeIndex < BranchAndBound.newEdge.size()) {
-			System.out.println("in");
 			if (pt.getX() < 0) {
 				assignConstraint((byte) -1, (int) Math.abs(pt.getX()),
 						(int) Math.abs(pt.getY()));

@@ -13,6 +13,8 @@ public class MyBranchAndBound {
 	private int bestTour = Integer.MAX_VALUE /4;
 	private MyNode bestNode;
 	public ArrayList<ArrayList<Short>> costList;
+	public static Cost costTable;
+
 	public ArrayList<Point> newEdge = new ArrayList<Point>();
 	private int newNodeCount = 0;
 	private int numberPrunedNodes = 0;
@@ -21,11 +23,23 @@ public class MyBranchAndBound {
 
 	public MyBranchAndBound(Cost cost, int size) {
 		numRows = numCols = size;
+		this.costTable=cost;
 		costList = new ArrayList<ArrayList<Short>>();
 		for(int i=1;i<=size;i++){
 			ArrayList<Short> temp = new ArrayList<Short>();
 			for(int j = 1;j<=size;j++){
 				temp.add( cost.getCost(i, j));
+			}
+			costList.add(temp);
+		}
+		
+		
+		for(int i=1;i<=size;i++){
+			System.out.println();
+			ArrayList<Short> temp = costList.get(i-1);
+			for(int j = 1;j<=size;j++){
+				if(temp.get(j-1)!=cost.getCost(i, j))
+				System.out.print(temp.get(j-1)+" ' ");
 			}
 			costList.add(temp);
 		}
@@ -71,19 +85,18 @@ public class MyBranchAndBound {
 				if (node.getTourCost() < bestTour) {
 					bestTour = node.getTourCost();
 					bestNode = node;
-                    System.out.println("\n\nBest tour cost so far: " + 
-                            bestTour + "\nBest tour so far: " + 
-                            bestNode.tour() + 
-                            "\nNumber of nodes generated so far: " + 
-                            newNodeCount + 
-                            "\nTotal number of nodes pruned so far: " + 
-                            numberPrunedNodes + 
-                            "\nElapsed time to date for branch and bound: " + 
-                                  t.getElapsedTime() + " seconds.\n"); 
+//                    System.out.println("\n\nBest tour cost so far: " + 
+//                            bestTour + "\nBest tour so far: " + 
+//                            bestNode.tour() + 
+//                            "\nNumber of nodes generated so far: " + 
+//                            newNodeCount + 
+//                            "\nTotal number of nodes pruned so far: " + 
+//                            numberPrunedNodes + 
+//                            "\nElapsed time to date for branch and bound: " + 
+//                                  t.getElapsedTime() + " seconds.\n"); 
 				}
 			} else {
 				if (node.lowerBound() < 2 * bestTour) {
-					System.out.println("tu2");
 					// Create left child node
 					leftChild = new MyNode(numRows, numCols);
 					newNodeCount++;
@@ -94,10 +107,7 @@ public class MyBranchAndBound {
 					} else if (newNodeCount % 25 == 0) {
 					}
 					if (newNodeCount % 10000 == 0 && bestNode != null) {
-                        System.out.println( 
-                                "\n\nBest tour cost so far: " + 
-                                bestTour + "\nBest tour so far: " + 
-                                bestNode.tour()); 
+
 					}
 					
 					leftChild.setConstraint(copyConstraint(node.constraint()));
@@ -152,7 +162,6 @@ public class MyBranchAndBound {
 							&& leftChild.lowerBound() <= rightChild
 									.lowerBound()) {
 						if (leftChild.lowerBound() < 2 * bestTour) {
-							System.out.println("left "+leftEdgeIndex);
 							branchAndBound(leftChild, leftEdgeIndex);
 						} else {
 							leftChild = null;
@@ -172,7 +181,6 @@ public class MyBranchAndBound {
 							numberPrunedNodes++;
 						}
 						if (leftChild.lowerBound() < 2 * bestTour) {
-							System.out.println("left "+leftEdgeIndex);
 							branchAndBound(leftChild, leftEdgeIndex);
 						} else {
 							leftChild = null;
@@ -195,7 +203,15 @@ public class MyBranchAndBound {
 		}
 		return newConstraint;
 	}
-	
+	private byte[][] copyConstraint(byte[][] constraint) {
+		byte[][] toReturn = new byte[numRows + 1][numCols + 1];
+		for (int row = 1; row <= numRows; row++) {
+			for (int col = 1; col <= numCols; col++) {
+				toReturn[row][col] = constraint[row][col];
+			}
+		}
+		return toReturn;
+	}
 	public int getBestTour(){
 		return bestTour;
 	}
