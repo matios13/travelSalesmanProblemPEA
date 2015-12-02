@@ -210,23 +210,25 @@ class PrepareChild implements Runnable{
 	private MyNode child;
 	private ArrayList<Point> newEdge;
 	MyBranchAndBound mbab;
-	PrepareChild( MyNode child,ArrayList<Point> newEdge,MyBranchAndBound mbab){
+	int edgeIndex;
+	byte[][] copyConstraint;
+	PrepareChild( MyNode child,int edgeIndex,MyBranchAndBound mbab,byte[][] copyConstraint){
 		this.child=child;
 		this.newEdge=mbab.newEdge;
 		this.mbab = mbab;
+		this.edgeIndex=edgeIndex;
 	}
 	@Override
 	public void run() {
 		child = new MyNode(mbab.numRows, mbab.numCols);
-		child.setConstraint(copyConstraint(node.constraint()));
-		
+		child.setConstraint(copyConstraint);		
 		Point p = (Point) newEdge.get(edgeIndex);
 		mbab.leftEdgeIndex = child.assignPoint(p, edgeIndex,newEdge );
 		child.addDisallowedEdges();
 		child.addRequiredEdges();
 		child.addDisallowedEdges();
 		child.addRequiredEdges();
-		child.computeLowerBound(costList);
+		child.computeLowerBound(mbab.costList);
 		
 	}
 	
