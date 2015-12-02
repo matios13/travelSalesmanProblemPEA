@@ -25,6 +25,7 @@ public class MyBranchAndBound {
 		numRows = numCols = size;
 		this.costTable=cost;
 		costList = new ArrayList<ArrayList<Short>>();
+		costList.parallelStream();
 		for(int i=1;i<=size;i++){
 			ArrayList<Short> temp = new ArrayList<Short>();
 			for(int j = 1;j<=size;j++){
