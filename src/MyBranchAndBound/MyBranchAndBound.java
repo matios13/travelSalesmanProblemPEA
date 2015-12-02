@@ -7,14 +7,14 @@ import travelSalesman.TimeInterval;
 import BranchAndBound.Cost;
 
 public class MyBranchAndBound {
-	private int numRows;
-	private int numCols;
+	public int numRows;
+	public int numCols;
 	private TimeInterval t = new TimeInterval();
 	private int bestTour = Integer.MAX_VALUE /4;
 	private MyNode bestNode;
 	public ArrayList<ArrayList<Short>> costList;
 	public static Cost costTable;
-
+	public int leftEdgeIndex = 0, rightEdgeIndex = 0;
 	public ArrayList<Point> newEdge = new ArrayList<Point>();
 	private int newNodeCount = 0;
 	private int numberPrunedNodes = 0;
@@ -101,14 +101,6 @@ public class MyBranchAndBound {
 					leftChild = new MyNode(numRows, numCols);
 					newNodeCount++;
                     
-					if (newNodeCount % 1000 == 0) {
-						Point p = (Point) newEdge.get(edgeIndex);
-		
-					} else if (newNodeCount % 25 == 0) {
-					}
-					if (newNodeCount % 10000 == 0 && bestNode != null) {
-
-					}
 					
 					leftChild.setConstraint(copyConstraint(node.constraint()));
 					if (edgeIndex != -1
@@ -134,9 +126,6 @@ public class MyBranchAndBound {
 					// Create right child node
 					rightChild = new MyNode(numRows, numCols);
 					newNodeCount++;
-					if (newNodeCount % 1000 == 0) {
-					} else if (newNodeCount % 25 == 0) {
-					}
 					rightChild.setConstraint(copyConstraint(node.constraint()));
 					if (leftEdgeIndex >= newEdge.size()) {
 						return;
@@ -215,4 +204,30 @@ public class MyBranchAndBound {
 	public int getBestTour(){
 		return bestTour;
 	}
+}
+class PrepareChild implements Runnable{
+	
+	private MyNode child;
+	private ArrayList<Point> newEdge;
+	MyBranchAndBound mbab;
+	PrepareChild( MyNode child,ArrayList<Point> newEdge,MyBranchAndBound mbab){
+		this.child=child;
+		this.newEdge=mbab.newEdge;
+		this.mbab = mbab;
+	}
+	@Override
+	public void run() {
+		child = new MyNode(mbab.numRows, mbab.numCols);
+		child.setConstraint(copyConstraint(node.constraint()));
+		
+		Point p = (Point) newEdge.get(edgeIndex);
+		mbab.leftEdgeIndex = child.assignPoint(p, edgeIndex,newEdge );
+		child.addDisallowedEdges();
+		child.addRequiredEdges();
+		child.addDisallowedEdges();
+		child.addRequiredEdges();
+		child.computeLowerBound(costList);
+		
+	}
+	
 }

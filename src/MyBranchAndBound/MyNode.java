@@ -3,7 +3,7 @@ package MyBranchAndBound;
 import java.util.*;
 import java.awt.*;
 
-public class MyNode {
+public class MyNode implements Runnable{
 	private int lowerBound;
 	private int numRows, numCols;
 	private byte[][] constraint;
@@ -295,5 +295,11 @@ public class MyNode {
 			}
 		}
 		return num;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
 	}
 }
