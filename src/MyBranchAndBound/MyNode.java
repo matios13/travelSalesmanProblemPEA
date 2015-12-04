@@ -18,6 +18,7 @@ public class MyNode implements Runnable{
 		this.numRows = numRows;
 		this.numCols = numCols;
 		nodeCosts = new ArrayList<Short>();
+		nodeCosts.parallelStream();
 		for(int i =0;i<numCols;i++){
 			nodeCosts.add((short)0);
 		}

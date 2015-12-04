@@ -34,6 +34,7 @@ public class MyBranchAndBound {
 			}
 			costList.add(temp);
 		}
+		costList.parallelStream();
 	}
 
 	public void generateSolution() {
@@ -168,14 +169,7 @@ public class MyBranchAndBound {
 		return wholeTime;
 	}
 
-	public ArrayList<ArrayList<Byte>> copyConstraint(
-			ArrayList<ArrayList<Byte>> constraint) {
-		ArrayList<ArrayList<Byte>> newConstraint = new ArrayList<ArrayList<Byte>>();
-		for (ArrayList<Byte> a : constraint) {
-			newConstraint.add(new ArrayList<Byte>(a));
-		}
-		return newConstraint;
-	}
+
 
 	private byte[][] copyConstraint(byte[][] constraint) {
 		byte[][] toReturn = new byte[numRows + 1][numCols + 1];

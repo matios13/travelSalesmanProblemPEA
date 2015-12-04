@@ -63,15 +63,15 @@ public class BranchAndBound {
 				if (node.getTourCost() < bestTour) {
 					bestTour = node.getTourCost();
 					bestNode = node;
-//                    System.out.println("\n\nBest tour cost so far: " + 
-//                            bestTour + "\nBest tour so far: " + 
-//                            bestNode.tour() + 
-//                            "\nNumber of nodes generated so far: " + 
-//                            newNodeCount + 
-//                            "\nTotal number of nodes pruned so far: " + 
-//                            numberPrunedNodes + 
-//                            "\nElapsed time to date for branch and bound: " + 
-//                                  t.getElapsedTime() + " seconds.\n"); 
+                    System.out.println("\n\nBest tour cost so far: " + 
+                            bestTour + "\nBest tour so far: " + 
+                            bestNode.tour() + 
+                            "\nNumber of nodes generated so far: " + 
+                            newNodeCount + 
+                            "\nTotal number of nodes pruned so far: " + 
+                            numberPrunedNodes + 
+                            "\nElapsed time to date for branch and bound: " + 
+                                  t.getElapsedTime() + " seconds.\n"); 
 				}
 			} else {
 				if (node.lowerBound() < 2 * bestTour) {
@@ -85,10 +85,10 @@ public class BranchAndBound {
 					} else if (newNodeCount % 25 == 0) {
 					}
 					if (newNodeCount % 10000 == 0 && bestNode != null) {
-//                        System.out.println( 
-//                                "\n\nBest tour cost so far: " + 
-//                                bestTour + "\nBest tour so far: " + 
-//                                bestNode.tour()); 
+                        System.out.println( 
+                                "\n\nBest tour cost so far: " + 
+                                bestTour + "\nBest tour so far: " + 
+                                bestNode.tour()); 
 					}
 					leftChild.setConstraint(copy(node.constraint()));
 					if (edgeIndex != -1
