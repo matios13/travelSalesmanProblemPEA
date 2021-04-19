@@ -1,4 +1,5 @@
 # travelSalesmanProblemPEA
-A JAva solution for Travel salesman problem
+A Java solution for Travel salesman problem
+for
 - pwr
 - w4
